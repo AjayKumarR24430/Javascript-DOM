@@ -1,0 +1,193 @@
+<html>
+    <head>
+        <title>
+            User tasks
+        </title>
+    </head>
+    <body>
+        <h1 style="font-size: 60px;margin-left: 460px;">User Details</h1>
+        <p style="font-size: 30px;margin-left: 480px;"> Review User's tasks:</p>
+        <select onchange= val() style="font-size: 20px;margin-left: 550px;" name="Users" id="select_id">
+            <option value="id0"></option>
+            <option value="id1"></option>
+            <option value="id2"></option>
+            <option value="id3"></option>
+            <option value="id4"></option>
+        </select><br><br>
+        <form style="margin-left: 100px;">
+            Enter a number to filter tasks based on duration less than this value:
+            <input type="number" id="number">
+            <input type="button" value="Filter" onclick="val()">
+        </form>
+        <h2 style="font-size: 20px; margin-left: 520px;" id="tasks"></h2>
+        <ul id="list" style="margin-left: 470px;">
+
+        </ul>
+        <p id="no_task" style="margin-left: 528px;"></p>
+        <script>
+            let userDatabase = {
+                    'userid_0': {
+                        'name': 'Jim',
+                        'age': 43,
+                        'email': 'jim@gossik.ch'
+                    },
+                    'userid_1': {
+                        'name': 'Paul',
+                        'age': 28,
+                        'email': 'paul@gossik.ch'
+                    },
+                    'userid_2': {
+                        'name': 'Rachel',
+                        'age': 23,
+                        'email': 'rachel@gossik.ch'
+                    },
+                    'userid_3': {
+                        'name': 'Lauren',
+                        'age': 31,
+                        'email': 'lauren@gossik.ch'
+                    },
+                    'userid_4': {
+                        'name': 'John',
+                        'age': 25,
+                        'email': 'john@gossik.ch'
+                    }
+                };
+
+            let taskDatabase = {
+                    'taskid_0': {
+                        'userid': 'userid_3',
+                        'content': 'Do the dishes',
+                        'duration': 20
+                    },
+                    'taskid_1': {
+                        'userid': 'userid_1',
+                        'content': 'Cook dinner',
+                        'duration': 40
+                    },
+                    'taskid_2': {
+                        'userid': 'userid_0',
+                        'content': 'Read newspaper',
+                        'duration': 20
+                    },
+                    'taskid_3': {
+                        'userid': 'userid_2',
+                        'content': 'Call Joey',
+                        'duration': 10
+                    },
+                    'taskid_4': {
+                        'userid': 'userid_4',
+                        'content': 'Send report to Hanna',
+                        'duration': 30
+                    },
+                    'taskid_5': {
+                        'userid': 'userid_0',
+                        'content': 'Write blog post',
+                        'duration': 60
+                    },
+                    'taskid_6': {
+                        'userid': 'userid_0',
+                        'content': 'Analyze user retention',
+                        'duration': 40
+                    },
+                    'taskid_7': {
+                        'userid': 'userid_0',
+                        'content': 'Set up new website',
+                        'duration': 70
+                    },
+                    'taskid_8': {
+                        'userid': 'userid_1',
+                        'content': 'Get children from soccer training',
+                        'duration': 120
+                    },
+                    'taskid_9': {
+                        'userid': 'userid_1',
+                        'content': 'Check school assignment',
+                        'duration': 20
+                    },
+                    'taskid_10': {
+                        'userid': 'userid_2',
+                        'content': 'Check calendar for holidays',
+                        'duration': 5
+                    },
+                    'taskid_11': {
+                        'userid': 'userid_2',
+                        'content': 'Research good hotels',
+                        'duration': 50
+                    },
+                    'taskid_12': {
+                        'userid': 'userid_2',
+                        'content': 'Ask boss for days off',
+                        'duration': 10
+                    },
+                    'taskid_13': {
+                        'userid': 'userid_3',
+                        'content': 'Buy new jeans',
+                        'duration': 120
+                    },
+                    'taskid_14': {
+                        'userid': 'userid_3',
+                        'content': 'Repair car',
+                        'duration': 180
+                    },
+                    'taskid_15': {
+                        'userid': 'userid_4',
+                        'content': 'Prepare weekly meeting',
+                        'duration': 90
+                    }
+            };
+
+            document.getElementsByTagName('select')[0].options[0].text = userDatabase.userid_0.name;
+            document.getElementsByTagName('select')[0].options[1].text = userDatabase.userid_1.name;
+            document.getElementsByTagName('select')[0].options[2].text = userDatabase.userid_2.name;
+            document.getElementsByTagName('select')[0].options[3].text = userDatabase.userid_3.name;
+            document.getElementsByTagName('select')[0].options[4].text = userDatabase.userid_4.name;
+
+            function val() {
+                document.getElementById("list").innerHTML = "";
+                d = document.getElementById("select_id").value;
+                var num = document.getElementById("number").value;
+                document.getElementById("no_task").innerHTML = "";
+                let count=0;
+                document.getElementById("tasks").innerHTML = "Tasks of " + document.getElementsByTagName('select')[0].options[d[2]].text + " :";
+                Object.keys(taskDatabase).forEach(function(key) {
+                    if(num==""){
+                        if(taskDatabase[key].userid[7]==d[2]){
+                            count = count+1;
+                            var node = document.createElement('li');
+                            var task = taskDatabase[key].content;
+                            var text = task + " - Duration: " + taskDatabase[key].duration + " minutes     ";
+                            node.appendChild(document.createTextNode(text));
+                            document.querySelector('ul').appendChild(node);
+                            var x = document.createElement('button');
+                            x.id = 'btn' + count;
+                            var t = document.createTextNode("Edit");
+                            x.appendChild(t);
+                            node.appendChild(x);
+                            
+                        }
+                    }
+                    else{
+                        if(taskDatabase[key].userid[7]==d[2] && taskDatabase[key].duration<=num){
+                            count = count+1;
+                            var node = document.createElement('li');
+                            var task = taskDatabase[key].content;
+                            var text = task + " - Duration: " + taskDatabase[key].duration + " minutes      ";
+                            node.appendChild(document.createTextNode(text));
+                            document.querySelector('ul').appendChild(node); 
+                            var x = document.createElement('button');
+                            x.id = 'btn' + count;
+                            var t = document.createTextNode("Edit");
+                            x.appendChild(t);
+                            node.appendChild(x);
+                        }
+                    }
+                });
+                console.log(count)
+                if(count==0)
+                    document.getElementById("no_task").innerHTML = "No task found!"
+            }
+
+        </script>
+
+    </body>
+</html>
